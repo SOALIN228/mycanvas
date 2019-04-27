@@ -1,26 +1,82 @@
 var canvas = document.getElementById('canvas')
 var context = canvas.getContext('2d')
+var lineWidth = 5
 
 autoSetCanvasSize(canvas)
 
 listenToMouse(canvas)
 
 var eraserEnabled = false
+
+pen.onclick = function () {
+  eraserEnabled = false
+  pen.classList.add('active')
+  eraser.classList.remove('active')
+}
+
 eraser.onclick = function () {
   eraserEnabled = true
-  actions.className = 'actions active'
-
+  eraser.classList.add('active')
+  pen.classList.remove('active')
 }
-brush.onclick = function () {
-  eraserEnabled = false
-  actions.className = 'actions'
+
+clear.onclick = function () {
+  context.clearRect(0, 0, canvas.width, canvas.height)
+}
+
+download.onclick = function () {
+  var url = canvas.toDataURL('image/png')
+  var a = document.createElement('a')
+  document.body.appendChild(a)
+  a.href = url
+  a.download = '我的画'
+  a.click()
+}
+
+function setPenColor (pen) {
+  var list = document.getElementById('colors').getElementsByTagName('li')
+  for (var i = 0; i < list.length; i++) {
+    list[i].classList.remove('active')
+  }
+  pen.classList.add('active')
+}
+
+black.onclick = function () {
+  context.fillStyle = 'black'
+  context.strokeStyle = 'black'
+  setPenColor(this)
+}
+
+red.onclick = function () {
+  context.fillStyle = 'red'
+  context.strokeStyle = 'red'
+  setPenColor(this)
+}
+
+green.onclick = function () {
+  context.fillStyle = 'green'
+  context.strokeStyle = 'green'
+  setPenColor(this)
+}
+
+blue.onclick = function () {
+  context.fillStyle = 'blue'
+  context.strokeStyle = 'blue'
+  setPenColor(this)
+}
+
+thin.onclick = function () {
+  lineWidth = 5
+}
+
+thick.onclick = function () {
+  lineWidth = 8
 }
 
 function drawLine (x1, y1, x2, y2) {
   context.beginPath()
-  context.strokeStyle = 'black'
   context.moveTo(x1, y1) // 起点
-  context.lineWidth = 5
+  context.lineWidth = lineWidth
   context.lineTo(x2, y2) // 终点
   context.stroke()
   context.closePath()

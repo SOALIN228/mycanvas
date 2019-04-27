@@ -6,13 +6,34 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>我的canvas画板</title>
   <link rel="stylesheet" href="style.css">
+  <script src="//at.alicdn.com/t/font_1165580_adsq40hmd8.js"></script>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <div id="actions" class="actions">
-    <button id="eraser">橡皮擦</button>
-    <button id="brush">画笔</button>
+    <svg id="pen" class="icon active">
+      <use xlink:href="#icon-pan_icon"></use>
+    </svg>
+    <svg id="eraser" class="icon">
+      <use xlink:href="#icon-xiangpi"></use>
+    </svg>
+    <svg id="clear" class="icon">
+      <use xlink:href="#icon-qingchu"></use>
+    </svg>
+    <svg id="download" class="icon">
+      <use xlink:href="#icon-xiazai"></use>
+    </svg>
   </div>
+  <ol id="colors" class="colors">
+    <li id="black" class="black active"></li>
+    <li id="red" class="red"></li>
+    <li id="green" class="green"></li>
+    <li id="blue" class="blue"></li>
+  </ol>
+  <ol class="sizes">
+    <li id="thin" class="thin"></li>
+    <li id="thick" class="thick"></li>
+  </ol>
   <script src="main.js"></script>
 </body>
 </html>
