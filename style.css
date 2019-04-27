@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#canvas {
+    background-color: red;
+    height: 100vh;
+    position: relative;
+}
