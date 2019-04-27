@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-#xxx {
+#canvas {
     background: green;
     display: block;
 }
@@ -18,10 +18,10 @@
     display: none;
 }
 
-.actions.x > #brush {
+.actions.active > #brush {
     display: inline-block;
 }
 
-.actions.x > #eraser {
+.actions.active > #eraser {
     display: none
 }
