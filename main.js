@@ -46,38 +46,75 @@ function listenToMouse (canvas) {
   var using = false
   var lastPoint = { x: undefined, y: undefined }
 
-  // 按下鼠标
-  canvas.onmousedown = function (aaa) {
-    var x = aaa.clientX
-    var y = aaa.clientY
-    using = true
-    if (eraserEnabled) {
-      context.clearRect(x - 5, y - 5, 10, 10)
-    } else {
-      lastPoint = { x: x, y: y }
-    }
-  }
-
-  // 拖动鼠标
-  canvas.onmousemove = function (a) {
-    var x = a.clientX
-    var y = a.clientY
-
-    if (!using) {
-      return
+  if (document.body.ontouchstart !== undefined) {
+    // 触屏设备
+    canvas.ontouchstart = function (ev) {
+      var x = ev.touches[0].clientX
+      var y = ev.touches[0].clientY
+      using = true
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        lastPoint = { x: x, y: y }
+      }
     }
 
-    if (eraserEnabled) {
-      context.clearRect(x - 5, y - 5, 10, 10)
-    } else {
-      var newPoint = { x: x, y: y }
-      drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
-      lastPoint = newPoint
-    }
-  }
+    canvas.ontouchmove = function (ev) {
+      var x = ev.touches[0].clientX
+      var y = ev.touches[0].clientY
 
-  // 松开鼠标
-  canvas.onmouseup = function () {
-    using = false
+      if (!using) {
+        return
+      }
+
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        var newPoint = { x: x, y: y }
+        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+        lastPoint = newPoint
+      }
+    }
+
+    canvas.ontouchend = function () {
+      using = false
+    }
+
+  } else {
+    // 非触屏设备
+    // 按下鼠标
+    canvas.onmousedown = function (ev) {
+      var x = ev.clientX
+      var y = ev.clientY
+      using = true
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        lastPoint = { x: x, y: y }
+      }
+    }
+
+    // 拖动鼠标
+    canvas.onmousemove = function (ev) {
+      var x = ev.clientX
+      var y = ev.clientY
+
+      if (!using) {
+        return
+      }
+
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        var newPoint = { x: x, y: y }
+        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+        lastPoint = newPoint
+      }
+    }
+
+    // 松开鼠标
+    canvas.onmouseup = function () {
+      using = false
+    }
   }
 }
