@@ -4,41 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>canvas画板</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="canvas"></div>
+  <canvas id="xxx" width="500" height="500"></canvas>
   <script>
-  var div = document.getElementById('canvas')
+  var yyy = document.getElementById('xxx')
+  var context = yyy.getContext('2d')
+
   var painting = false
+  var lastPoint = { x: undefined, y: undefined }
 
   // 按下鼠标
-  div.onmousedown = function (a) {
+  yyy.onmousedown = function (aaa) {
     painting = true
-    var x = a.clientX
-    var y = a.clientY
-    var divA = document.createElement('div')
-    divA.style = 'width: 6px;height: 6px;background:black;border-radius:3px;' +
-      'position:absolute;left:' + (x - 3) + 'px;' + 'top:' + (y - 3) + 'px;'
-    div.appendChild(divA)
+    var x = aaa.clientX
+    var y = aaa.clientY
+    lastPoint = { x: x, y: y }
+    drawCircle(x, y, 1)
   }
 
+
   // 拖动鼠标
-  div.onmousemove = function (a) {
+  yyy.onmousemove = function (a) {
     if (painting) {
       var x = a.clientX
       var y = a.clientY
-      var divA = document.createElement('div')
-      divA.style = 'width: 6px;height: 6px;background:black;border-radius:3px;' +
-        'position:absolute;left:' + (x - 3) + 'px;' + 'top:' + (y - 3) + 'px;'
-      div.appendChild(divA)
+      var newPoint = { x: x, y: y }
+      drawCircle(x, y, 1)
+      drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+      lastPoint = newPoint
     }
   }
 
   // 松开鼠标
-  div.onmouseup = function () {
+  yyy.onmouseup = function () {
     painting = false
+  }
+
+  function drawCircle (x, y, radius) {
+    context.beginPath()
+    context.fillStyle = 'black'
+    context.arc(x, y, radius, 0, Math.PI * 2)
+    context.fill()
+  }
+
+  function drawLine (x1, y1, x2, y2) {
+    context.beginPath();
+    context.strokeStyle = 'black'
+    context.moveTo(x1, y1) // 起点
+    context.lineWidth = 5
+    context.lineTo(x2, y2) // 终点
+    context.stroke()
+    context.closePath()
   }
   </script>
 </body>
